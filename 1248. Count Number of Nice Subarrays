@@ -1,0 +1,30 @@
+class Solution {
+    public int numberOfSubarrays(int[] nums, int k) {
+        return help(nums, k) - help(nums, k - 1);
+    }
+    
+    private int help(int[] nums, int k) {
+        int l = 0;
+        int r = 0;
+        int sum = 0;
+        int count = 0;
+        
+        while (r < nums.length) {
+            if (nums[r] % 2 != 0) {
+                sum += 1;
+            }
+
+            while (sum > k) {
+                if (nums[l] % 2 != 0) { 
+                    sum -= 1;
+                }
+                l++;
+            }
+
+            count += r - l + 1;
+            r++;
+        }
+        
+        return count;
+    }
+}
