@@ -1,0 +1,25 @@
+class Solution {
+    public int shortestSubarray(int[] nums, int k) {
+        int n = nums.length;
+        long[] ps = new long[n + 1];
+        
+        for (int i = 0; i < n; i++) {
+            ps[i + 1] = ps[i] + nums[i];
+        }
+        
+        Deque<Integer> dq = new LinkedList<>();
+        int len = n + 1;
+
+        for (int i = 0; i <= n; i++) {
+            while (!dq.isEmpty() && ps[i] - ps[dq.peekFirst()] >= k) {
+                len = Math.min(len, i - dq.pollFirst());
+            }
+            while (!dq.isEmpty() && ps[i] <= ps[dq.peekLast()]) {
+                dq.pollLast();
+            }
+            dq.offerLast(i);
+        }
+
+        return len == n + 1 ? -1 : len;
+    }
+}
