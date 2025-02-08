@@ -1,6 +1,6 @@
 # LeetCode Daily Challenges (Java)
 
-This repository contains solutions to the daily challenges or problems of the day from LeetCode, solved in Java. Each solution is organized by the date it was completed.
+This repository contains solutions to the daily challenges or problems of the day from LeetCode, solved in Java. Each solution is organized by the problem number.
 
 ## Problem of the Day
 
