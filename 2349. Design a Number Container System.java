@@ -1,39 +1,41 @@
+// using lazy update
 class NumberContainers {
-
-  Map<Integer ,Integer> map=new HashMap<>();
-   Map<Integer ,TreeSet<Integer>> map2=new HashMap<>();
+    HashMap<Integer,PriorityQueue<Integer>> numToint;
+    HashMap<Integer,Integer> intTonum;
     public NumberContainers() {
-        int index;
-        int number;
-      
-
-        
+        numToint = new HashMap<>();
+        intTonum = new HashMap<>();
     }
     
     public void change(int index, int number) {
-        if(map.containsKey(index)){
-            int old=map.get(index);
-           TreeSet<Integer> set= map2.get(old);
-           set.remove(index);
-           map2.put(old , set);
-
+        
+        intTonum.put(index,number);
+        if (!numToint.containsKey(number)){
+            numToint.put(number,new PriorityQueue<>());
         }
-        map.put(index , number);
-         TreeSet<Integer> set = map2.getOrDefault(number, new TreeSet<>());
-           set.add(index);
-           map2.put(number, set);
+        numToint.get(number).offer(index);
     }
     
     public int find(int number) {
-      TreeSet<Integer> set= map2.getOrDefault(number , new TreeSet<>());
-      if(!set.isEmpty()) {
-      if(map.containsKey(set.first())){
-            return set.first();
-      }
-      }
-      return -1;
-        
-    }
+        if (!numToint.containsKey(number)){
+            return -1;
+        }
+        // PriorityQueue<Integer> pq = numToint.get(number);
+        while (!numToint.get(number).isEmpty()){
+            int p = numToint.get(number).peek();
+            if (intTonum.get(p) == number){
+                break;
+            }
+            else{
+                numToint.get(number).poll();
+            }
+        }
+        if ( numToint.get(number).isEmpty()){
+            numToint.remove(number);
+            return -1;
+        }
+        return numToint.get(number).peek();
+    } 
 }
 
 /**
